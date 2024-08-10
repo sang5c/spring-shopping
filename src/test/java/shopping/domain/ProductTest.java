@@ -1,6 +1,5 @@
 package shopping.domain;
 
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,15 +15,15 @@ class ProductTest {
     @DisplayName("0원 미만 상품은 예외가 발생한다")
     @Test
     void create() {
-        assertThatThrownBy(() -> Product.create("상품", BigDecimal.valueOf(-1)))
+        assertThatThrownBy(() -> Product.create("상품", BigDecimal.valueOf(-1), null))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("상품 이름이 2자 미만 50자 초과이면 예외가 발생한다")
     @ParameterizedTest
-    @ValueSource(strings = {"한", "일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십1" })
+    @ValueSource(strings = {"한", "일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십1"})
     void create2(String name) {
-        assertThatThrownBy(() -> Product.create(name, BigDecimal.valueOf(1000)))
+        assertThatThrownBy(() -> Product.create(name, BigDecimal.valueOf(1000), null))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -44,7 +43,7 @@ class ProductTest {
     @Test
     void create4() {
         assertThatCode(() -> {
-            Product.create("상품", BigDecimal.valueOf(1000));
+            Product.create("상품", BigDecimal.valueOf(1000), null);
             Product.create("상품", BigDecimal.valueOf(1000), "상품 설명");
         }).doesNotThrowAnyException();
     }

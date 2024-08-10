@@ -34,10 +34,6 @@ public class Product {
         this.description = description;
     }
 
-    public static Product create(String name, BigDecimal price) {
-        return new Product(name, price, null);
-    }
-
     public static Product create(String name, BigDecimal price, String description) {
         return new Product(name, price, description);
     }
@@ -54,5 +50,21 @@ public class Product {
         if (description != null && description.length() > MAX_DESCRIPTION_LENGTH) {
             throw new IllegalArgumentException("상품 설명은 100자 이하여야 합니다.");
         }
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
