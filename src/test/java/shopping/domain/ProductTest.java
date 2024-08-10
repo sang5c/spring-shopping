@@ -15,7 +15,7 @@ class ProductTest {
     @DisplayName("0원 미만 상품은 예외가 발생한다")
     @Test
     void create() {
-        assertThatThrownBy(() -> Product.create("상품", BigDecimal.valueOf(-1), null))
+        assertThatThrownBy(() -> Product.create("상품", BigDecimal.valueOf(-1), "https://test.com/sample.jpg", ""))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -23,7 +23,7 @@ class ProductTest {
     @ParameterizedTest
     @ValueSource(strings = {"한", "일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십1"})
     void create2(String name) {
-        assertThatThrownBy(() -> Product.create(name, BigDecimal.valueOf(1000), null))
+        assertThatThrownBy(() -> Product.create(name, BigDecimal.valueOf(1000), "", null))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -34,6 +34,7 @@ class ProductTest {
                 Product.create(
                         "상품",
                         BigDecimal.valueOf(1000),
+                        "https://test.com/sample.jpg",
                         "백한자백한자백한자백한자백한자백한자백한자백한자백한자백한자백한자백한자백한자백한자백한자백한자백한자백한자백한자백한자백한자백한자백한자백한자백한자백한자백한자백한자백한자백한자백한자백한자백한자백1"
                 ))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -43,8 +44,22 @@ class ProductTest {
     @Test
     void create4() {
         assertThatCode(() -> {
-            Product.create("상품", BigDecimal.valueOf(1000), null);
-            Product.create("상품", BigDecimal.valueOf(1000), "상품 설명");
+            Product.create("상품", BigDecimal.valueOf(1000), "https://test.com/sample.jpg", null);
+            Product.create("상품", BigDecimal.valueOf(1000), "https://test.com/sample.jpg", "상품 설명");
         }).doesNotThrowAnyException();
+    }
+
+    @DisplayName("유효한 이미지 URL이 아닌 경우 예외가 발생한다")
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "https://test.com/sample.exe",
+            "https://test.com/sample.jpg.exe",
+            "https://test.com/sample",
+            "https://test.co/sample.jpg",
+            "http://test.com/sample.jpg",
+    })
+    void create5(String imageUrl) {
+        assertThatThrownBy(() -> Product.create("상품", BigDecimal.valueOf(1000), imageUrl, ""))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }

@@ -19,7 +19,7 @@ class ProductServiceTest {
 
     @Test
     void registerProduct() {
-        ProductRegisterRequest request = new ProductRegisterRequest("Apple", BigDecimal.valueOf(1000), "This is an apple");
+        ProductRegisterRequest request = new ProductRegisterRequest("Apple", BigDecimal.valueOf(1000), "https://test.com/sample.jpg", "This is an apple");
 
         ProductRegisterResponse productRegisterResponse = productService.registerProduct(request);
 
